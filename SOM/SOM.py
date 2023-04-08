@@ -16,7 +16,7 @@ def create_prototypes():
 
 
 def pi_func(k):
-    # this function do operation in coordinate coordinate way. instead calculate to prototype separately I do it
+    # this function do operation in coordinate way. instead calculate to prototype separately I do it
     # together
     ind = np.array(range(1, 101))
     pifunc = np.exp(
@@ -44,7 +44,7 @@ def SOM():
     return first_prot, prot_matrix, list_of_examples
 
 
-def create_graphs():  # check if the x's and the y's I gave is the correct ones
+def create_graphs():
     first_prot, last_prot, list_of_examples = SOM()  # 100 X 2
     plt.figure()
     ax = plt.gca()
@@ -77,5 +77,3 @@ def create_graphs():  # check if the x's and the y's I gave is the correct ones
     plt.grid()
     plt.show()
 
-
-create_graphs()

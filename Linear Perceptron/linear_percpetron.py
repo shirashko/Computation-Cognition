@@ -15,6 +15,7 @@ def create_examples(P):
     for m in range(P):
         examples_matrix.append(np.array([np.random.uniform(-1, 1), X2]))
     return examples_matrix
+    # return np.random.uniform(-1, 1, size=(P, X2))
 
 
 # for question 1
@@ -90,11 +91,7 @@ def question3(P):
     for i in range(P):
         y = examples_matrix[i][0] * W[0] + W[1]
         plt.plot(examples_matrix[i][0], y, '.' + "r")
-    # x_list = list((np.transpose(examples_matrix))[0])  # setting the x - coordinates
-    # y_list = labels  # setting the corresponding y - coordinates
-    # plt.plot(x_list, y_list)  # plotting the points
-
-    plt.show()  # function to show the plot
+    plt.show()
 
 
 def calculate_training_error(P, examples_matrix, labels):

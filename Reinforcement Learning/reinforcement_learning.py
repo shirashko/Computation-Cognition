@@ -71,12 +71,3 @@ def show_weight_vec_a_image(weight_vector):
     plt.show()
 
 
-def main():
-    examples, labels, test_examples, test_labels = load_data()
-    weight_vector, accuracy = stochastic_binary_perceptron_learning_algorithm(examples, labels, test_examples,
-                                                                              test_labels)
-    show_accuracy(accuracy)
-    show_weight_vec_a_image(weight_vector)
-
-
-main()

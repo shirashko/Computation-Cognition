@@ -71,8 +71,23 @@ def calculate_gradient_vec_online(example, weight_vec, y0):
     return np.array([gradient_1, gradient_2])
 
 
-# "batch" gradient learning
 def gradient_batch_learning_algorithm(learning_rate, examples, num_of_update_steps, P, labels):
+    """
+    batch gradient learning
+
+    Args:
+        learning_rate:
+
+        examples:
+
+        num_of_update_steps:
+
+        P:
+
+        labels:
+
+    Returns:
+    """
     g_err_list = []
     t_err_list = []
     weight_vec = np.array([1, 1])  # initialize with arbitrary numbers
@@ -84,8 +99,21 @@ def gradient_batch_learning_algorithm(learning_rate, examples, num_of_update_ste
     return t_err_list, g_err_list
 
 
-# "on-line" gradient learning
-def gradient_online_learning_algorithm(learning_rate, examples, num_of_update_steps, P, labels):
+def gradient_online_learning_algorithm(learning_rate, examples, num_of_update_steps, labels):
+    """
+    on-line gradient learning
+
+    Args:
+        learning_rate:
+
+        examples:
+
+        num_of_update_steps:
+
+        labels:
+
+    Returns:
+    """
     g_err_list = []
     m_err_list = []  # m for moment
     weight_vec = np.array([1, 1])  # initialize with arbitrary numbers
@@ -98,6 +126,16 @@ def gradient_online_learning_algorithm(learning_rate, examples, num_of_update_st
 
 
 def calculate_input_correlation_matrix(P, examples_matrix):
+    """
+    calculate correlation matrix
+
+    Args:
+        P:
+
+        examples_matrix:
+
+    Returns:
+    """
     # Cij = 1/p * ( sigma ( xi (m) * xj (m) , m=1,...P)
     const = 1 / P
     C11 = 0
@@ -149,15 +187,6 @@ def show_results(batch_err_t, batch_err_g, online_err_m, online_err_g, invert_er
     plt.show()
 
 
-def main1():
-    examples = create_examples(300)
-    labels = create_labels(100, examples)
-    x1, x2 = gradient_batch_learning_algorithm(0.01, examples, 100, 100, labels)
-    y1, y2 = gradient_online_learning_algorithm(0.01, examples, 100, 100, labels)
-    z1, z2 = correlation_matrix_reversal_algorithm(100, examples, labels)
-    show_results(x1, x2, y1, y2, z1, z2)
-
-
 def show_graph_of_batch_t_err(t_err_batch):
     plt.figure()
     plt.plot(range(500), t_err_batch[0], label="learning rate = 0.002", color="red", linewidth=1)
@@ -203,20 +232,3 @@ def show_graph_of_online_err(g_err_online):
     plt.show()
 
 
-def main2():
-    examples = create_examples(500)
-    labels = create_labels(500, examples)
-    learning_rates = [0.002, 0.005, 0.01, 0.02, 0.05]
-    t_err_batch_list = []  # list of lists
-    g_err_batch_list = []
-    g_err_online_list = []
-    for learning_rate in learning_rates:
-        t_err_batch, g_err_batch = gradient_batch_learning_algorithm(learning_rate, examples, 500, 500, labels)
-        t_err_batch_list.append(t_err_batch)
-        g_err_batch_list.append(g_err_batch)
-        m_err_online, g_err_online = gradient_online_learning_algorithm(learning_rate, examples, 500, 500, labels)
-        g_err_online_list.append(g_err_online)
-
-    show_graph_of_batch_t_err(t_err_batch_list)
-    show_graph_of_batch_g_err(g_err_batch_list)
-    show_graph_of_online_err(g_err_online_list)

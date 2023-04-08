@@ -14,7 +14,7 @@ def value_iteration():
     num_of_iterations = 0
     z = 0.5
     flag = True
-    while flag or (epsilon < max(abs(next_v_home_state - v_home_state), abs(next_v_out_state - v_out_state)) and \
+    while flag or (epsilon < max(abs(next_v_home_state - v_home_state), abs(next_v_out_state - v_out_state)) and
                    num_of_iterations < 5000):
         # updating the states values
         flag = False
@@ -46,9 +46,15 @@ def find_reward_and_next_state(cur_state, action):
         return "home", 0
 
 
-# part 2, question 2. find the values of the states for some policy (in this case check for policy that gives
-# 0.5 chances to choose each action in each state)
+# part 2, question 2.
 def TD_learning_algorithm():
+    """
+    find the values of the states for some policy (in this case check for policy that gives 0.5 chances to choose each
+    action in each state)
+
+    Returns:
+
+    """
     v_home_state = 0
     v_out_state = 0
     learning_rate = 0.01
@@ -129,12 +135,3 @@ def Q_learning_algorithm():
     return home_value_list, out_value_list
 
 
-def main():
-    print(value_iteration())
-    home_values_TD, out_values_TD = TD_learning_algorithm()
-    show_values_progress_in_graph(home_values_TD, out_values_TD, 33 / 19, 161 / 133, 2)
-    home_values_Q, out_values_Q = Q_learning_algorithm()
-    show_values_progress_in_graph(home_values_Q, out_values_Q, 26 / 9, 4, 3)
-
-
-main()
