@@ -6,7 +6,6 @@ NUM_OF_SIMULATIONS = 100
 LEARNING_RATE = 1
 
 
-# question 1
 def find_weight_vector(examples_matrix, examples_labels):
     """
     This function find a weight vector that classify correctly the given train set using the Perceptron learning
@@ -39,7 +38,7 @@ def find_weight_vector(examples_matrix, examples_labels):
     return weight_vector
 
 
-def _creating_examples_labels(examples_matrix):
+def _creating_labels(examples_matrix):
     """
     creating the examples_labels by the directions: if x1 > x2 then y = 1, otherwise y = 0
 
@@ -56,27 +55,32 @@ def _creating_examples_labels(examples_matrix):
     return examples_labels
 
 
-def question2():
+def _present_weight_vector_and_separate_line(weight_vector):
     """
-    this function create a matrix size 2X1000 with random entries from continuous U(-10,10) distribution, when each
-    column in the matrix is an example needed to be classify. then present the examples according to the corresponding
-    labels, when labeling is according to the separate line is y=x
+    present a given weight vector and the separate line which is vertical to it in a graph
+
+    Args:
+        weight_vector: the weight vector to present
     """
-    examples_matrix = np.random.uniform(-10, 10, size=(2, 1000))
-    examples_labels = _creating_examples_labels(examples_matrix)
-    plt.scatter(x=examples_matrix[0, :], y=examples_matrix[1, :], c=examples_labels, cmap='Set1', s=4)
-    plt.show()
+    slope = weight_vector[1] / weight_vector[0]  # y\x
+    separate_line_slope = -1 / slope  # m1 * m2 = -1 for vertical lines with slopes m1,m2
+    x = np.arange(-10, 11)
+    y1 = slope * x
+    y2 = separate_line_slope * x
+    plt.plot(x, y1)
+    plt.plot(x, y2)
 
 
-def question3():
+def perceptron_algorithm_in_action():
     """
-    creating 1000 random examples range [-10,10] from uniform distribution, creating correct labels to this examples
-    with the separating line y=x. find a weight vector using the perceptron learning algorithm, then present the
-    examples labeling with the w the algorithm found, and also present the weight vector and the separate line
+    creating 1000 random examples from U[-10,10] distribution, then finding the correct labels to these examples
+    when the separating line is y=x. find a weight vector using the perceptron learning algorithm, then present the
+    examples with the label they got using the returned w, and also present the weight vector and the separate line to
+    see if the examples got the right classification
     """
     examples_matrix = np.random.uniform(-10, 10, size=(2, 1000))
     # creating the examples_labels by the directions: if x1 > x2 then y = 1, otherwise y = 0
-    examples_labels = _creating_examples_labels(examples_matrix)
+    examples_labels = _creating_labels(examples_matrix)
     weight_vector = find_weight_vector(examples_matrix, examples_labels)
     # find the result vector using the weight vector returned from the find_weight_vector algorithm by multiplying the
     # examples with the weight vector to get the result vector, and then put it as an input on the H function that
@@ -86,8 +90,9 @@ def question3():
     H_res = np.zeros_like(result)
     H_res[result > 0] = 1
     plt.scatter(x=examples_matrix[0, :], y=examples_matrix[1, :], c=examples_labels, cmap='Set1', s=4)
-    x = np.array(list(range(-10, 11)))
-    plt.plot(x, x), plt.plot(x, -x), plt.grid()
+    plt.title("examples colored by the classification calculated with the perceptron algorithm, for underlying rule y="
+              "x", fontsize=9)
+    _present_weight_vector_and_separate_line(weight_vector)
     plt.show()
 
 
@@ -104,7 +109,8 @@ def calculate_angle(v1, v2):
 
 # create graph for question 4
 def create_graph():
-    plt.title(f"assignment 4")
+    plt.title(f"Average Error As Function Of Train Set Size\n error = absolute value of the angle between optimal w "
+              f"and perceptron algorithm vector", fontsize=10)
     ax = plt.gca()
     ax.spines['left'].set_position('zero')
     ax.spines['bottom'].set_position('zero')
@@ -115,7 +121,7 @@ def create_graph():
     plt.ylabel("average mistake")
 
 
-def question4():
+def average_mistake_as_function_of_sample_size():
     """
     checking for P = 5, 20, 30, 50, 100, 150, 200, 500 random examples the perceptron learning algorithm for finding
     a correct weight_vector. for each P check the average "error" between the optimal weight_vector to the
@@ -131,16 +137,12 @@ def question4():
         sum_of_mistakes = 0
         for i in range(NUM_OF_SIMULATIONS):
             examples_matrix = np.random.uniform(-10, 10, size=(2, p))
-            examples_labels = _creating_examples_labels(examples_matrix)
+            examples_labels = _creating_labels(examples_matrix)
             weight_vector = find_weight_vector(examples_matrix, examples_labels)
             sum_of_mistakes += abs(calculate_angle(weight_vector, optimal_vector))
         # calculate the average mistake of the 100 simulations
         average_mistake_p = sum_of_mistakes / NUM_OF_SIMULATIONS
         average_mistake.append(average_mistake_p)
     create_graph()
-    for i in range(len(num_of_example_list)):
-        x1 = num_of_example_list[i]  # x1 = p
-        x2 = average_mistake[i]  # x2 = average mistake
-        plt.plot(x1, x2, '.' + "b")
+    plt.scatter(num_of_example_list, average_mistake, s=15)
     plt.show()
-
