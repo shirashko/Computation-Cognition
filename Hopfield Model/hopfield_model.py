@@ -1,18 +1,25 @@
 import math
 import random
-
-import numpy
 import numpy as np
 from matplotlib import pyplot as plt
 
+# Background:
+#
+# The Hopfield model is a model of associative memory. It describes how a particular selection of synaptic connections
+# in the network will cause the network to boot in a state "close" to a particular memory, and then converge to the
+# memory itself after some dynamics.
+#
+# The model examines two important factors:
+#   - How "close" the network needs to be rebooted in order for it to converge into the right memory.
+#   - How many memories can be embedded in such a network.
 
 def get_p_memory_patterns(f, n, p):
     memory_patterns = []
     for i in range(p):
         memory_patterns.append(np.array(random.choices([1, 0], [f, 1 - f], cum_weights=None, k=n)))
-        # return a list (representing
-        # a memory pattern) with length n (as the number of neurons in the network) with probability f that the i
-        # coordinate will be 1
+        # return a list (representing a memory pattern) with length n (as the number of neurons in the network) with
+        # probability f that the i coordinate will be 1
+    # memory_patterns.append(np.array(random.choices([1, 0], [f, 1 - f], cum_weights=None, k=(p, n)))
     return memory_patterns  # dimensions are PXN
 
 
@@ -25,26 +32,29 @@ def calculate_synaptic_strength(memory_patterns, n, f, p):
     memory_patterns_transposed_minus_f = numpy.subtract(np.transpose(memory_patterns_temp), np.transpose(f_matrix))
     connection_matrix = k * np.matmul(memory_patterns_transposed_minus_f, memory_patterns_minus_f)  # the ij coordinate
     # is for Jig
-    # put zero in the coordinates in which i = j (on the diagonal)
-    for i in range(n):
-        connection_matrix[i][i] = 0
+    np.fill_diagnoal(connection_matrix, 0) # put zero in the coordinates in which i = j (on the diagonal)
     return connection_matrix
 
 
-""" to choose randomly p vectors in dimensions NX1 in module 2 field (with 0,1 values only) with f chances that the
-coordinate 1 <= i <= n will be 1. all p vectors which represent memory pattern need to be different
-and. to calculate the synaptic strength of synapse Jig (1<=i.j<=N, i=!j), put them in a matrix and to
- return this matrix from the function.
- @param n is the number of neurons in the network
- @param p is the number of memory patterns that the network need to learn
- @param f is the probability in which a neuron will be active in some memory pattern
- :return a connection matrix, which in the ij coordinate represent the strength of the synapse between the pre synaptic
- neuron j and the post synaptic neuron j.
- """
-
-
 def question1(n, p, f):
-    # to get p memory patterns following the instructions
+    """
+    Randomly Choose p vectors in dimensions NX1 in module 2 field (with 0,1 values only) with f chances that the
+    coordinate 1 <= i <= n will be 1. all p vectors which represent memory pattern need to be different
+    and. to calculate the synaptic strength of synapse Jig (1<=i.j<=N, i=!j), put them in a matrix and to
+    return this matrix from the function.
+
+    Args:
+    n:
+        number of neurons in the network
+     p:
+        number of memory patterns that the network need to learn
+     f :
+        the probability in which a neuron will be active in some memory pattern
+
+    Returns:
+        the connection matrix, which in the ij coordinate represent the strength of the synapse between the pre synaptic
+     neuron j and the post synaptic neuron j.
+     """
     memory_patterns = get_p_memory_patterns(f, n, p)
     connection_matrix = calculate_synaptic_strength(memory_patterns, n, f, p)
     return connection_matrix
@@ -57,17 +67,27 @@ def heavyside(x):
         return 0
 
 
-""" this function calculate a dynamic of an a-synchrony Hopfield network
-@param: connection_matrix is a matrix with the synaptic strength of the synapse connecting the pre-synaptic j neuron 
-and the post-synaptic i neuron in the ij coordinate. this matrix is with dimensions NXN
-@param: start_pattern_vector is a vector representing the start state of the neuronal activity of the network. this vector
-is with dimensions NX1
-@param: t is the threshold of the neurons 
-:return the memory pattern that the network converged into
-"""
-
-
 def question2(connection_matrix, start_pattern_vector, t):
+    """
+    this function calculate a dynamic of an a-synchrony Hopfield network
+
+    Args:
+
+    connectin_matrix:
+        connection_matrix is a matrix with the synaptic strength of the synapse connecting the
+        pre-synaptic j neuron and the post-synaptic i neuron in the ij coordinate. this matrix is with dimensions NXN
+
+    start_pattern_vector:
+        start_pattern_vector is a vector representing the start state of the neuronal activity of the
+        network. this vector is with dimensions NX1
+
+    t:
+        the threshold of the neurons
+
+    Returns:
+        the memory pattern that the network converged into
+    """
+
     current_pattern = None
     next_pattern = np.array(start_pattern_vector)
     n = next_pattern.size
@@ -80,17 +100,23 @@ def question2(connection_matrix, start_pattern_vector, t):
     return next_pattern
 
 
-""" this function use question2 function and calculate the percentage (range [0,1]) of the neurons that there activity
- has change from the start pattern 
-@param: connection_matrix is a matrix with the synaptic strength of the synapse connecting the pre-synaptic j neuron 
-and the post-synaptic i neuron in the ij coordinate. this matrix is with dimensions NXN
-@param: start_pattern_vector is a vector representing the start state of the neuronal activity of the network. this vector
-is with dimensions NX1
-@param: t is the threshold of the neurons 
-return the percentage which have been calculated """
-
-
 def question3(connection_matrix, start_pattern_vector, t):
+    """ this function use question2 function and calculate the percentage (range [0,1]) of the neurons that there activity
+     has change from the start pattern
+
+     Args:
+    connection_matrix:
+        connection_matrix is a matrix with the synaptic strength of the synapse connecting the pre-synaptic j neuron
+        and the post-synaptic i neuron in the ij coordinate. this matrix is with dimensions NXN
+    start_pattern_vector:
+        start_pattern_vector is a vector representing the start state of the neuronal activity of the network. this vector
+        is with dimensions NX1
+    t:
+        t is the threshold of the neurons
+
+    Returns:
+        the percentage which have been calculated
+    """
     start_pattern = np.array(start_pattern_vector)
     n = start_pattern.size
     converged_pattern = question2(connection_matrix, start_pattern, t)
@@ -142,5 +168,3 @@ def question4():
 
         plt.show()
 
-
-question4()
