@@ -10,6 +10,7 @@ def find_weight_vector(examples_matrix, examples_labels):
     """
     This function find a weight vector that classify correctly the given train set using the Perceptron learning
     algorithm
+    The Perceptron is a linear machine learning algorithm for binary classification tasks.
 
     Args:
         examples_matrix (NXP matrix): matrix with P examples (from Rn) to classify
@@ -90,8 +91,8 @@ def perceptron_algorithm_in_action():
     H_res = np.zeros_like(result)
     H_res[result > 0] = 1
     plt.scatter(x=examples_matrix[0, :], y=examples_matrix[1, :], c=examples_labels, cmap='Set1', s=4)
-    plt.title("examples colored by the classification calculated with the perceptron algorithm, for underlying rule y="
-              "x", fontsize=9)
+    plt.title("examples colored by the classification calculated with the perceptron \nalgorithm, for underlying rule "
+              "y= x", fontsize=9)
     _present_weight_vector_and_separate_line(weight_vector)
     plt.show()
 
@@ -105,20 +106,6 @@ def calculate_angle(v1, v2):
     the_complement_angle = 180 - angle
     min_angle = min(the_complement_angle, angle)
     return min_angle
-
-
-# create graph for question 4
-def create_graph():
-    plt.title(f"Average Error As Function Of Train Set Size\n error = absolute value of the angle between optimal w "
-              f"and perceptron algorithm vector", fontsize=10)
-    ax = plt.gca()
-    ax.spines['left'].set_position('zero')
-    ax.spines['bottom'].set_position('zero')
-    plt.xlim(0, 520)
-    plt.ylim(0, 90)
-    plt.grid()
-    plt.xlabel("number of examples")
-    plt.ylabel("average mistake")
 
 
 def average_mistake_as_function_of_sample_size():
@@ -143,6 +130,9 @@ def average_mistake_as_function_of_sample_size():
         # calculate the average mistake of the 100 simulations
         average_mistake_p = sum_of_mistakes / NUM_OF_SIMULATIONS
         average_mistake.append(average_mistake_p)
-    create_graph()
+    # show results in a graph
     plt.scatter(num_of_example_list, average_mistake, s=15)
+    plt.title(f"Average Error As Function Of Train Set Size\n error = absolute value of the angle between optimal w "
+              f"and perceptron algorithm vector", fontsize=10)
+    plt.xlabel("number of examples"), plt.ylabel("average mistake")
     plt.show()

@@ -1,4 +1,8 @@
-from hopfield_model import question1
+from hopfield_model import *
+
 
 def main():
-    question1(10,15,0.5)
+    find_probability_for_mistake_in_memory_convergence()
+
+if __name__ == "__main__":
+    main()
