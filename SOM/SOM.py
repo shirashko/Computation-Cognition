@@ -5,19 +5,32 @@ import matplotlib.pyplot as plt
 
 
 def get_random_example(p, f, sigma):
+    """This function create 2-dimensions random example, first coordinate x1 from U[-1,1], second coordinate x2 in
+    probability p is sin(f*x1)+e when e is a random sample from N(0,sigma^2) distribution, and in the complement
+    probability x2 derive from U[-1,1] distribution independently of x1
+
+    Args:
+        p: the probability to choose x2 to be in the form sin(f*x1)+e
+        f: the constant we multiply by x1 when x2 is from the form sin(f*x1)+e
+        sigma: the std of the distribution we derive the noise e
+
+    Returns:
+        list represent the random example
+    """
     x1 = np.random.uniform(-1, 1)
     epsilon = np.random.normal(0, sigma ** 2)
     x2 = random.choices([np.sin(f * x1) + epsilon, np.random.uniform(-1, 1)], [p, 1 - p])[0]
     return [x1, x2]
 
 
-def create_prototypes():
-    return np.random.uniform(-1, 1, (100, 2))
-
 
 def pi_func(k):
-    # this function do operation in coordinate way. instead calculate to prototype separately I do it
-    # together
+    """ This function do operation in coordinate way. instead calculate to prototype separately I do it together
+    Args:
+
+    Returns:
+
+    """
     ind = np.array(range(1, 101))
     pifunc = np.exp(
         (-(ind - k) ** 2 / (2 * 4 ** 2)))  # a vector 1X100 of the pik(l-k)/Ck for each l for prototype index
@@ -27,7 +40,14 @@ def pi_func(k):
 
 
 def SOM():
-    prot_matrix = create_prototypes()  # 100 X 2
+    """ This function
+
+    Returns:
+        first_prot:
+        prot_matrix:
+        list_of_examples:
+    """
+    prot_matrix = np.random.uniform(-1, 1, (100, 2))  # create prototypes
     first_prot = numpy.array(prot_matrix)
     list_of_examples = []  # 100 X 2
     for i in range(20000):
@@ -45,6 +65,9 @@ def SOM():
 
 
 def create_graphs():
+    """This function
+
+    """
     first_prot, last_prot, list_of_examples = SOM()  # 100 X 2
     plt.figure()
     ax = plt.gca()

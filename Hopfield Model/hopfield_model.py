@@ -69,13 +69,6 @@ def find_connection_matrix(n, p, f):
     return connection_matrix
 
 
-def heavyside(x):
-    if x > 0:
-        return 1
-    else:
-        return 0
-
-
 def find_network_converged_pattern(connection_matrix, start_pattern_vector, t):
     """
     this function calculate a dynamic of an a-synchrony Hopfield network
@@ -103,7 +96,7 @@ def find_network_converged_pattern(connection_matrix, start_pattern_vector, t):
         current_pattern = np.array(next_pattern)
         for i in range(n):
             hi = np.dot(connection_matrix[i], next_pattern)
-            next_pattern[i] = heavyside(hi - t)
+            next_pattern[i] = (hi - t) > 0  # like heaviside function
     return next_pattern
 
 

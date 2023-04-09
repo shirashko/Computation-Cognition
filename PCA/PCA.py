@@ -2,24 +2,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# question 1
-def create_matrix():
-    return np.loadtxt("wines.csv", delimiter=",", skiprows=1)
-
-
-# question 2
 def create_graph(mat):
+    """ This function show
+    Args:
+        mat:
+    """
     x = mat.transpose()[1]
     y = mat.transpose()[2]
     color = mat.transpose()[0].astype(int)
-    plt.title("question 2.2 - purple for wine 1, green for wine 2, yellow for wine 3")
+    plt.title("purple for wine 1, green for wine 2, yellow for wine 3")
     plt.scatter(x, y, c=color)
     plt.grid()
     plt.show()
 
 
-# question 3
 def preprocessing(mat):
+    """ This function preprocessing a matrix by normalized its entries (reduce the mean and divide by the std)
+
+        Args:
+            mat: a matrix to preprocess
+    """
     mat = (mat.transpose()[1:]).transpose()  # get rid of first column with info about the wines number
     average_vec = mat.mean(0)  # 1 X 13 vector of average of each attribute (0 means average by cols)
     mat = mat - average_vec
@@ -28,11 +30,18 @@ def preprocessing(mat):
     return mat
 
 
-# question 4
-def calculate_eigenvalues_eigenvectors_of_c(mat):  # get matrix of 179X14
+def calculate_eigenvalues_eigenvectors_of_c(mat):
+    """ This function finds the eigenvalues of the given matrix and a corresponding eigenvectors
+        Args:
+            mat (NXM ndarray): the matrix to find the eigenvalues and eigenvectors for
+
+        Returns:
+            sorted_eigenvalues: the eigenvalues in descending order
+            sorted_eigenvectors: M eigenvectors corresponding to the sorted_eigenvalues
+    """
     mat_rows_are_properties = np.array(mat.transpose())
     mat_rows_are_examples = np.array(mat)
-    correlation_mat = np.matmul(mat_rows_are_properties, mat_rows_are_examples) / 178
+    correlation_mat = np.matmul(mat_rows_are_properties, mat_rows_are_examples) / mat.shape[0]
     eigenvalues, eigenvectors = np.linalg.eig(correlation_mat)
     eigenvectors = eigenvectors.transpose()  # each row is a vector
     eigenvalues_idx = eigenvalues.argsort()
@@ -41,8 +50,11 @@ def calculate_eigenvalues_eigenvectors_of_c(mat):  # get matrix of 179X14
     return sorted_eigenvalues, sorted_eigenvectors
 
 
-# question 5
 def show_cumulative_variance(eigenvalues):
+    """ This function show the explained variance for different (increasing) size of eigenvalues selection
+        Args:
+            eigenvalues: all the eigenvalues of some matrix
+    """
     # getting cumulative variance
     sum = np.sum(eigenvalues)
     cur_sum = 0
@@ -66,7 +78,14 @@ def show_cumulative_variance(eigenvalues):
 
 
 def reduce_dimension_and_plot(mat, U, wines_number):
-    result = np.matmul(mat, U)  # 178 X 2, each row is the examples after the dimensions reduction, y
+    """ This function
+
+    Args:
+        mat:
+        U:
+        wines_number:
+    """
+    result = np.matmul(mat, U)  # 178 X 2, each row is the examples after the dimensions' reduction, y
     plt.figure()
     ax = plt.gca()
     ax.spines['left'].set_position('zero')
@@ -75,4 +94,3 @@ def reduce_dimension_and_plot(mat, U, wines_number):
     plt.scatter(result.transpose()[0], result.transpose()[1], c=wines_number)
     plt.grid()
     plt.show()
-
