@@ -34,11 +34,5 @@ This course teaches you about Data analysis &amp; Mathematical modeling from a c
 - Exercise 10 - Decisions Under Uncertainty
 
 
-### Contributing
-You are invited to submit pull requests.
-
-### License
-This project is released under the [MIT](https://choosealicense.com/licenses/mit/) License. See the LICENSE file for details.
-
 ![Alt Text](https://media2.giphy.com/media/Iup13qWlzAqsBItALB/giphy.gif?cid=ecf05e47gg33j4eea6shx3jbsqhj55r07gmt6wwkje9e24ah&rid=giphy.gif&ct=g)
 
