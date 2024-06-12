@@ -5,7 +5,7 @@
 As a Cognition Science Student in the Hebrew University of Jerusalem, I was required to take the Computation &amp; cognition course.
 This course teaches you about Data analysis &amp; Mathematical modeling from a cognitive perspective. More information can be found [Here](https://shnaton.huji.ac.il/index.php/NewSyl/06119/2/).
 
-## Introduction
+## Projects
 - Exercise 1 - The Binary Perceptron
 
 - Exercise 2 - Hopfield Model
