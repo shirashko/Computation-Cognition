@@ -3,7 +3,7 @@
 <img src="https://www.hopkinsmedicine.org/sebin/z/n/neurocognition-209866700.jpg" width= "400" height= "250">
 
 As a Cognition Science Student in the Hebrew University of Jerusalem, I was required to take the Computation &amp; cognition course.
-This course teaches you about Data analysis &amp; Mathematical modeling from a cognitive perspective More information can be found [Here](https://shnaton.huji.ac.il/index.php/NewSyl/06119/2/).
+This course teaches you about Data analysis &amp; Mathematical modeling from a cognitive perspective. More information can be found [Here](https://shnaton.huji.ac.il/index.php/NewSyl/06119/2/).
 
 
 ## Table Of Contents
